@@ -205,7 +205,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary update_student">Update Student</button>
                     </div>
-                    <input type="hidden" name="student_type" value="student" id="edit_id" class="student_type">
+                    <input type="hidden" name="id" id="edit_id">
                 </form>
             </div>
         </div>

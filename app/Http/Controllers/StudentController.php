@@ -74,7 +74,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function update ($id)
+    public function update ( $id )
     {
         $validator = Validator::make(request()->all(), [
             'name'      => 'required',

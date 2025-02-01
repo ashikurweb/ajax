@@ -13,7 +13,6 @@ Route::controller(StudentController::class)->group(function () {
     Route::get('/students/view', 'view');
     Route::post('/students/store', 'store');
     Route::get('/students/edit/{id}', 'edit');
-    Route::post('students/update/{id}', 'update');
-    // Route::put('/students/update/{id}', 'update');
-    Route::delete('students/delete/{id}', 'destroy');
+    Route::post('/students/update/{id}', 'update');
+    Route::delete('/students/delete/{id}', 'destroy');
 });
