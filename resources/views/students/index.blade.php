@@ -139,42 +139,42 @@
                     <div class="mb-3 col-md-6">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control edit_name" id="name" name="name" onkeyup="errorRemove(this)">
-                        <span class="text-danger name_error"></span>
+                        <span class="text-danger edit_name_error"></span>
                     </div>
 
                     <!-- Email -->
                     <div class="mb-3 col-md-6">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control edit_email" id="email" name="email" onkeyup="errorRemove(this)">
-                        <span class="text-danger email_error"></span>
+                        <span class="text-danger edit_email_error"></span>
                     </div>
 
                     <!-- Registration Number -->
                     <div class="mb-3 col-md-6">
                         <label for="reg" class="form-label">Registration Number</label>
                         <input type="text" class="form-control edit_reg" id="reg" name="reg" onkeyup="errorRemove(this)">
-                        <span class="text-danger reg_error"></span>
+                        <span class="text-danger edit_reg_error"></span>
                     </div>
 
                     <!-- Roll Number -->
                     <div class="mb-3 col-md-6">
                         <label for="roll" class="form-label">Roll Number</label>
                         <input type="text" class="form-control edit_roll" id="roll" name="roll" onkeyup="errorRemove(this)">
-                        <span class="text-danger roll_error"></span>
+                        <span class="text-danger edit_roll_error"></span>
                     </div>
 
                     <!-- Phone -->
                     <div class="mb-3 col-md-6">
                         <label for="phone" class="form-label">Phone</label>
                         <input type="tel" class="form-control edit_phone" id="phone" name="phone" onkeyup="errorRemove(this)">
-                        <span class="text-danger phone_error"></span>
+                        <span class="text-danger edit_phone_error"></span>
                     </div>
 
                     <!-- Address -->
                     <div class="mb-3 col-md-6">
                         <label for="address" class="form-label">Address</label>
                         <input type="text" class="form-control edit_address" id="address" name="address" onkeyup="errorRemove(this)">
-                        <span class="text-danger address_error"></span>
+                        <span class="text-danger edit_address_error"></span>
                     </div>
 
                     <!-- Gender -->
@@ -186,14 +186,14 @@
                             <option value="female">Female</option>
                             <option value="other">Other</option>
                         </select>
-                        <span class="text-danger gender_error"></span>
+                        <span class="text-danger edit_gender_error"></span>
                     </div>
 
                     <!-- Image -->
                     <div class="mb-3 col-md-6">
                         <label for="studentImage" class="form-label">Image</label>
                         <input type="file" class="form-control error-image" id="studentImage" name="image" onchange="loadImage(event, 'editImagePreview')" accept="image/*">
-                        <span class="text-danger image_error"></span>
+                        <span class="text-danger edit_image_error"></span>
 
                         <div class="mb-3 col-md-6">
                             <img id="editImagePreview" class="mt-2 image" src="https://placehold.co/100x100" alt="Preview" style="width: 120px; height: 120px;">
@@ -205,7 +205,6 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary update_student">Update Student</button>
                     </div>
-                    <input type="hidden" name="id" id="edit_id">
                 </form>
             </div>
         </div>
@@ -241,6 +240,9 @@
                 }
             }
         }
+
+        // errorFieldRemove
+
 
         $(document).ready(function () {
 
@@ -377,17 +379,9 @@
                             $('.edit_roll').val(res.student.roll);
                             $('.edit_phone').val(res.student.phone);
                             $('.edit_address').val(res.student.address);
-                            if (res.student) {
-                                if (res.student.gender) {
-                                    $('.gender').val(res.student.gender);
-                                }
-
-                                if (res.student.image) {
-                                    $('#editImagePreview').attr('src', '/students/' + res.student.image);
-                                } else {
-                                    $('#editImagePreview').attr('src', 'https://placehold.co/100x100');
-                                }
-                            }
+                            $('.edit-gender').val(res.student.gender).trigger('change');
+                            $('#editImagePreview').attr('src', res.student && res.student.image ? `/students/${res.student.image}` : 'https://placehold.co/100x100');
+                            $('.update_student').val(res.student.id);
                         } else if (res.status == 400) {
                             toastr.warning(res.message);
                         } else {
@@ -424,6 +418,7 @@
                             studentView();
                             toastr.success(res.message);
                         } else if (res.status == 400) {
+                            console.log(res.errors);
                             if (res.errors.name) {
                                 showError('.edit_name', res.errors.name);
                             }

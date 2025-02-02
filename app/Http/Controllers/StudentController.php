@@ -78,7 +78,7 @@ class StudentController extends Controller
     {
         $validator = Validator::make(request()->all(), [
             'name'      => 'required',
-            'email'     => 'required|email|unique:students,email|max:255',
+            'email'     => 'required|email|max:255',
             'reg'       => 'required',
             'roll'      => 'required',
             'phone'     => 'required',
@@ -109,6 +109,13 @@ class StudentController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('students'), $imageName);
             $student->image = $imageName;
+        }
+
+        if (!$student->isDirty()) {
+            return response()->json([
+                'status'    => 200,
+                'message'   => 'Nothing to update'
+            ]);
         }
 
         $student->save();
